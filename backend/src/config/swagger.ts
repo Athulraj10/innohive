@@ -61,6 +61,16 @@ const options: swaggerJsdoc.Options = {
               description: 'User role',
               example: 'USER',
             },
+            walletBalance: {
+              type: 'number',
+              description: 'User wallet balance (virtual USD)',
+              example: 100,
+            },
+            exposure: {
+              type: 'number',
+              description: 'Locked amount due to joined competitions',
+              example: 50,
+            },
             createdAt: {
               type: 'string',
               format: 'date-time',
