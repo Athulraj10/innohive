@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse } from "axios"
-import { TOKEN_STORAGE_KEY, USER_STORAGE_KEY } from "../constants/storage"
+import { TOKEN_STORAGE_KEY } from "../constants/storage"
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:4000/api"
 
