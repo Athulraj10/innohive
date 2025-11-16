@@ -32,7 +32,6 @@ const saveUserToStorage = (user: User | null): void => {
   if (user) {
     localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(user));
   } else {
-    localStorage.removeItem(USER_STORAGE_KEY);
   }
 };
 
@@ -61,9 +60,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const cachedUser = getUserFromStorage();
     
     if (!token) {
+      if (cachedUser) {
+        setUser(cachedUser);
+      } else {
+        setUser(null);
+      }
       setIsLoading(false);
-      setUser(null);
-      saveUserToStorage(null);
       return;
     }
 
@@ -131,7 +133,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = (): void => {
     localStorage.removeItem(TOKEN_STORAGE_KEY);
-    saveUserToStorage(null); 
+    // Explicitly clear cached user on logout
+    localStorage.removeItem(USER_STORAGE_KEY);
     clearJoinedCompetitions(); 
     setUser(null);
   };
@@ -141,7 +144,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       value={{
         user,
         isLoading,
-        isAuthenticated: !!user,
+        isAuthenticated: !!(user || localStorage.getItem(TOKEN_STORAGE_KEY)),
         login,
         logout,
         checkAuth,

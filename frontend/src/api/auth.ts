@@ -12,7 +12,12 @@ export const login = async (data: LoginRequest): Promise<AuthResponse> => {
 };
 
 export const getMe = async (): Promise<{ user: User }> => {
-  const response = await api.get<{ user: User }>('/auth/me');
-  return response.data;
+  const response = await api.get<any>('/auth/me');
+  // Support both shapes: { user: {...} } and raw user object
+  const data = response.data;
+  if (data && typeof data === 'object' && 'user' in data) {
+    return data as { user: User };
+  }
+  return { user: data as User };
 };
 

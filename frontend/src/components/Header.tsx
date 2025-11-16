@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 
 export const Header = () => {
-  const { user, logout } = useAuth();
+  const { user, logout, isAuthenticated } = useAuth();
   const exposure = user?.exposure ?? 0;
   const wallet = user?.walletBalance ?? 100;
   const balance = wallet - exposure;
@@ -32,7 +32,7 @@ export const Header = () => {
           </div>
           </Link>
           <div className="flex items-center gap-2 sm:gap-4 flex-nowrap w-full sm:w-auto justify-start sm:justify-end overflow-x-auto">
-            {user ? (
+            {isAuthenticated ? (
               <>
                 <div className="relative shrink-0">
                   <div
@@ -41,12 +41,12 @@ export const Header = () => {
                   >
                     <div className="w-7 h-7 sm:w-8 sm:h-8 bg-primary-600 rounded-full flex items-center justify-center">
                       <span className="text-white font-semibold text-sm">
-                        {user.name.charAt(0).toUpperCase()}
+                        {(user?.name || 'U').charAt(0).toUpperCase()}
                       </span>
                     </div>
                     <div className="flex flex-col min-w-0">
                       <span className="text-sm font-medium text-gray-200 truncate max-w-[120px] sm:max-w-none">
-                        {user.name}
+                        {user?.name || 'User'}
                       </span>
                     </div>
                     <svg className="sm:hidden w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
